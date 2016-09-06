@@ -1,0 +1,20 @@
+version: '2'
+services:
+  gitlabce:
+    build: "./"
+    image: "gitlabce"
+    volumes:
+      - "gitlab_etc:/etc/gitlab"
+      - "gitlab_opt:/var/opt/gitlab"
+      - "gitlab_log:/var/log/gitlab"
+    ports:
+      - "2222:22"
+      - "80:80"
+      - "443:443"
+    privileged: true
+    restart: always
+
+volumes:
+  gitlab_etc:
+  gitlab_opt:
+  gitlab_log:

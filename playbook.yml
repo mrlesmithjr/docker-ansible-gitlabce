@@ -1,0 +1,40 @@
+---
+- hosts: localhost
+  become: true
+  connection: local
+  vars:
+    gitlab_apt_key: 'https://packages.gitlab.com/gpg.key'
+    gitlab_apt_repos:
+      - 'deb https://packages.gitlab.com/gitlab/gitlab-ce/ubuntu/ {{ ansible_distribution_release|lower }} main'
+      - 'deb-src https://packages.gitlab.com/gitlab/gitlab-ce/ubuntu/ {{ ansible_distribution_release|lower }} main'
+  roles:
+  tasks:
+    - name: Installing Pre-Reqs
+      apt:
+        name: "{{ item }}"
+        state: "present"
+        install_recommends: false
+      with_items:
+        - 'apt-transport-https'
+        - 'ca-certificates'
+        - 'curl'
+        - 'openssh-server'
+        - 'postfix'
+        - 'supervisor'
+
+    - name: Installing Gitlab Repo Key(s)
+      apt_key:
+        url: "{{ gitlab_apt_key }}"
+        state: "present"
+
+    - name: Adding Gitlab Apt Repositories
+      apt_repository:
+        repo: "{{ item }}"
+        state: "present"
+      with_items: '{{ gitlab_apt_repos }}'
+
+    - name: Installing Gitlab-CE
+      apt:
+        name: "gitlab-ce"
+        install_recommends: false
+        state: "present"
