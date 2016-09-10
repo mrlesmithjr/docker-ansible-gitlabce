@@ -10,6 +10,10 @@
     gosu_ver: '1.9'
   roles:
   tasks:
+    - name: Updating Apt-Cache
+      apt:
+        update_cache: yes
+
     - name: Installing dumb-init
       apt:
         deb: "https://github.com/Yelp/dumb-init/releases/download/v1.0.2/dumb-init_1.0.2_amd64.deb"
@@ -28,9 +32,11 @@
       with_items:
         - 'apt-transport-https'
         - 'ca-certificates'
+        - 'cron'
         - 'curl'
         - 'openssh-server'
         - 'postfix'
+        - 'rsyslog'
         - 'supervisor'
 
     - name: Installing Gitlab Repo Key(s)

@@ -1,8 +1,7 @@
 version: '2'
 services:
   gitlabce:
-    build: "./"
-    image: "gitlabce"
+    image: "mrlesmithjr/gitlabce"
     volumes:
       - "gitlab_etc:/etc/gitlab"
       - "gitlab_opt:/var/opt/gitlab"

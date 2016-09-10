@@ -1,11 +1,48 @@
 Repo Info
 =========
-Build [Docker] image for [GitLab-CE]..
+Build [Docker] image for [GitLab-CE] provisioned via [Ansible]
+
+Building
+--------
+If you need to modify any configurations you will need to rebuild the image:
+```
+docker build -t gitlabce .
+```
+And then spin the image up:
+```
+docker run -d -p 2222:22 -p 80:80 -p 443:443 gitlabce
+```
 
 Consuming
 ---------
 ```
-docker-compose up -d --build
+docker run -d -p 2222:22 -p 80:80 -p 443:443 mrlesmithjr/gitlabce
+```
+Spin up using `docker-compose`:
+```
+docker-compose up -d
+```
+`docker-compose.yml`
+```
+version: '2'
+services:
+  gitlabce:
+    image: "mrlesmithjr/gitlabce"
+    volumes:
+      - "gitlab_etc:/etc/gitlab"
+      - "gitlab_opt:/var/opt/gitlab"
+      - "gitlab_log:/var/log/gitlab"
+    ports:
+      - "2222:22"
+      - "80:80"
+      - "443:443"
+    privileged: true
+    restart: always
+
+volumes:
+  gitlab_etc:
+  gitlab_opt:
+  gitlab_log:
 ```
 
 Define Alternate SSH Port For GitLab
