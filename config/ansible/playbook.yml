@@ -55,3 +55,8 @@
         name: "gitlab-ce"
         install_recommends: false
         state: "present"
+
+    - name: Ensuring /var/run/sshd Exists #Ensures that SSH starts up correctly
+      file:
+        path: "/var/run/sshd"
+        state: "directory"
