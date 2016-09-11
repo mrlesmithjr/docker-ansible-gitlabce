@@ -17,8 +17,6 @@ RUN chmod +x /docker-entrypoint.sh
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
-COPY config/supervisord/*.conf /etc/supervisor/conf.d/
-
 # Expose ports
 EXPOSE 22 80 443
 
